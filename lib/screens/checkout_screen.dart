@@ -76,7 +76,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             if (_currentStep < 2) {
               setState(() => _currentStep++);
             } else {
-              appState.clearCart();
+              appState.placeOrder("${_addressController.text}, ${_cityController.text}");
               context.go('/confirmation');
             }
           },

@@ -11,6 +11,7 @@ import 'screens/checkout_screen.dart';
 import 'screens/order_confirmation_screen.dart';
 import 'screens/track_order_screen.dart';
 import 'screens/admin_dashboard_screen.dart';
+import 'screens/profile_screen.dart';
 
 final router = GoRouter(
   initialLocation: '/splash',
@@ -65,5 +66,10 @@ final router = GoRouter(
       path: '/upload',
       builder: (context, state) => UploadScreen(),
     ),
+    GoRoute(
+      path: '/profile',
+      builder: (context, state) => const ProfileScreen(),
+    ),
   ],
 );
+

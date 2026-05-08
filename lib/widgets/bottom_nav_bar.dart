@@ -22,7 +22,7 @@ class BotanicalBottomNavBar extends StatelessWidget {
         context.go('/cart');
         break;
       case 3:
-        context.go('/signin'); // Profile/Account placeholder
+        context.go('/profile');
         break;
     }
   }

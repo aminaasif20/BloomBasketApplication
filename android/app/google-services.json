@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "574362478740",
+    "project_id": "bloomproject-a8a59",
+    "storage_bucket": "bloomproject-a8a59.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:574362478740:android:76eb3c8f9dddd2392d6c81",
+        "android_client_info": {
+          "package_name": "ntu.edu.bloomBasket"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-JbpS0yV2gKYETCUF5iTesFAOpcPZiPo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

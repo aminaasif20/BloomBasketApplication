@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state.dart';
 
@@ -35,7 +36,34 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     height: MediaQuery.of(context).size.height * 0.5,
                     width: double.infinity,
                     color: Colors.white,
-                    child: Image.network(product.imageUrl, fit: BoxFit.cover),
+                    padding: const EdgeInsets.all(24),
+                    child: Center(
+                      child: product.imageUrl.startsWith('assets/')
+                          ? Image.asset(
+                              product.imageUrl,
+                              fit: BoxFit.contain,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Center(
+                                    child: Icon(
+                                      Icons.broken_image,
+                                      size: 64,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                            )
+                          : Image.network(
+                              product.imageUrl,
+                              fit: BoxFit.contain,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Center(
+                                    child: Icon(
+                                      Icons.broken_image,
+                                      size: 64,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                            ),
+                    ),
                   ),
 
                   // 🔙 WHITE BACK BUTTON
@@ -43,7 +71,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     top: 20,
                     left: 16,
                     child: GestureDetector(
-                      onTap: () => Navigator.pop(context),
+                      onTap: () => context.pop(),
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: const BoxDecoration(
@@ -156,14 +184,37 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          for (int i = 0; i < quantity; i++) {
+                          // 1. Direct quantity update karein (Behtar approach)
+                          final cartItemIndex = appState.cart.indexWhere(
+                            (item) => item.product.id == product.id,
+                          );
+
+                          if (cartItemIndex >= 0) {
+                            // Agar pehle se cart mein hai to purani quantity + nayi quantity
+                            appState.updateQuantity(
+                              product,
+                              appState.cart[cartItemIndex].quantity + quantity,
+                            );
+                          } else {
+                            // Agar naya hai to add karein aur phir quantity set karein
                             appState.addToCart(product);
+                            if (quantity > 1) {
+                              appState.updateQuantity(product, quantity);
+                            }
                           }
 
+                          // 2. Feedback SnackBar
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text("${product.name} added to cart"),
-                              duration: const Duration(seconds: 3),
+                              backgroundColor: Colors.green[800],
+                              content: Text(
+                                '$quantity x ${product.name} added!',
+                              ),
+                              action: SnackBarAction(
+                                label: 'VIEW CART',
+                                textColor: Colors.white,
+                                onPressed: () => context.push('/cart'),
+                              ),
                             ),
                           );
                         },
